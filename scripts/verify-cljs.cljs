@@ -1,0 +1,22 @@
+#!/usr/bin/env nbb
+;; Run the suite on the ClojureScript side.
+;;
+;; Not a formality: eth-crypto implements secp256k1 twice — BigInteger and
+;; javax.crypto on one runtime, js/BigInt and a hand-written SHA-256 on the
+;; other. RFC-6979 makes the signature deterministic, so the pinned bytes in
+;; this suite are a cross-implementation check, and recovering a mainnet
+;; sender has to work on both or one of the two is wrong.
+;;
+;;   nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljs
+(ns verify-cljs
+  (:require [clojure.test :as t]
+            [filecoin.signer-test]))
+
+(defmethod t/report [:cljs.test/default :end-run-tests] [m]
+  (println)
+  (if (t/successful? m)
+    (println "all checks passed on the ClojureScript path")
+    (do (println "FAILED on the ClojureScript path")
+        (js/process.exit 1))))
+
+(t/run-tests 'filecoin.signer-test)

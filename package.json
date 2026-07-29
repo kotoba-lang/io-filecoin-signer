@@ -1,0 +1,12 @@
+{
+  "name": "io-filecoin-signer",
+  "private": true,
+  "scripts": {
+    "test:cljs": "nbb --classpath \"$(clojure -A:cljs -Spath)\" scripts/verify-cljs.cljs",
+    "vectors": "nbb testdata/gen_vectors.cljs > test/filecoin/signer/vectors.cljc"
+  },
+  "comment": "@noble/hashes is not used here; io-multiformats' :cljs branch loads it at require time.",
+  "dependencies": {
+    "@noble/hashes": "^2.0.1"
+  }
+}

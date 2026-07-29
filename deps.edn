@@ -1,0 +1,29 @@
+;; Two dependencies, and this is the repo that exists to hold the second one.
+;;
+;;   io-filecoin  — addresses, messages, and the bytes a signature covers.
+;;                  Its `src/` pins no curve on purpose, which is why signing
+;;                  is a seam there and lives here.
+;;   eth-crypto   — secp256k1. RFC-6979 deterministic nonces, EIP-2 low-s,
+;;                  recovery, on both runtimes. Not "Ethereum crypto that
+;;                  happens to work": secp256k1 is the same curve, and the
+;;                  chains differ only in how they turn a public key into an
+;;                  address.
+;;
+;; Still no BLS12-381, so `f3` accounts cannot sign here — there is no
+;; implementation of that curve anywhere in this workspace.
+{:paths ["src"]
+ :deps {io.github.kotoba-lang/io-filecoin
+        {:git/sha "b28b628c4c5ffa3594ce8242eefd286352a464b7"}
+        io.github.kotoba-lang/eth-crypto
+        {:git/sha "702293e35624f1051b592030a2aaff851c821912"}}
+ :aliases
+ {:test {:extra-paths ["test"]
+         :extra-deps {io.github.cognitect-labs/test-runner
+                      {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
+         :main-opts ["-m" "cognitect.test-runner"]
+         :exec-fn cognitect.test-runner.api/test}
+  :cljs {:extra-paths ["test"]}
+
+  :lint {:replace-deps {clj-kondo/clj-kondo {:mvn/version "2024.11.14"}}
+         :main-opts ["-m" "clj-kondo.main" "--lint" "src" "test"
+                     "--fail-level" "error"]}}}
