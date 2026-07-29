@@ -10,7 +10,8 @@
 ;;   nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljs
 (ns verify-cljs
   (:require [clojure.test :as t]
-            [filecoin.signer-test]))
+            [filecoin.signer-test]
+            [filecoin.signer.eth-test]))
 
 (defmethod t/report [:cljs.test/default :end-run-tests] [m]
   (println)
@@ -19,4 +20,5 @@
     (do (println "FAILED on the ClojureScript path")
         (js/process.exit 1))))
 
-(t/run-tests 'filecoin.signer-test)
+(t/run-tests 'filecoin.signer-test
+             'filecoin.signer.eth-test)
