@@ -43,8 +43,9 @@ signature of the right length that verifies against nothing.
 
 ## What this cannot sign
 
-- **`f3` (BLS12-381).** No implementation of that curve exists anywhere in
-  this workspace.
+- ~~**`f3` (BLS12-381).**~~ Implemented — see below. Verification only;
+  BLS *signing* is not wired up, since nothing in this family needs to
+  produce an `f3` signature.
 - **Legacy EIP-155 delegated transactions.** `filecoin.signer.eth` produces
   EIP-1559 (type 2) only. The legacy shape is readable but not writable here:
 
@@ -90,6 +91,47 @@ string from a list **by JS type** — a JS array is a byte string, a cljs vector
 is a list. Passing a vector of ints encodes each byte as its own nested item.
 On the JVM the distinction is free, so this can only fail on one runtime.
 
+## BLS12-381 — `filecoin.signer.bls`
+
+**This implements no cryptography.** Pairing arithmetic is the last thing to
+hand-roll, so the primitives come from `@noble/curves` (audited, pure JS).
+What is here is the Filecoin-specific part: which DST, which group holds
+what, and where a public key comes from.
+
+```
+signature   96 bytes, G2      public key  48 bytes, G1
+DST         BLS_SIG_BLS12381G2_XMD:SHA-256_SSWU_RO_NUL_
+```
+
+The trailing `NUL_` is the **basic** scheme. noble defaults to `POP_`
+(proof-of-possession) — a different hash-to-curve domain, so every signature
+just fails with nothing to say the tag was why. There is a test that verifies
+the *same* aggregate under `POP_` and asserts it does **not** pass.
+
+An `f3` address **is** the public key, carried verbatim rather than hashed.
+That is what makes a block's aggregate checkable with no chain state at all:
+
+```clojure
+(bls/verify-block-aggregate aggregate messages)   ; => true
+```
+
+A header's `BLSAggregate` is one signature over *every* BLS message in the
+block. The test verifies a real mainnet block's — which requires the message
+CID, the address→key extraction, the DST, the G1/G2 placement and the
+aggregate scheme to be right simultaneously — and then checks that dropping a
+message, altering one, or using the secp256k1 double-hashed digest each make
+it fail.
+
+One distinction worth knowing: a *corrupted* aggregate does not verify to
+`false`, it **throws** — flipped bits are not a point on the curve. A caller
+treating exceptions as transport errors would mishandle a tampered block.
+
+**ClojureScript only.** There is no pure-Java BLS12-381 here and the JVM
+options are JNI bindings to `blst`, which would pin a native library and a
+platform. The `:clj` side throws and names the operation it was asked for.
+That also matches CLAUDE.md's runtime order, where ClojureScript ranks above
+the JVM.
+
 ## Verification
 
 The vectors are **mainnet's**, and they are checked in the one direction that
@@ -111,7 +153,7 @@ RFC-6979 makes signing deterministic, so the pinned signature bytes are a
 on each runtime (BigInteger + javax.crypto; js/BigInt + a hand-written
 SHA-256), and both suites assert the same bytes.
 
-**87 assertions, green on both.**
+**123 assertions on the JVM, 126 under nbb.** They differ on purpose here: the BLS suite is ClojureScript-only, and the JVM runs a refusal test in its place.
 
 ```sh
 clojure -M:test        # JVM
