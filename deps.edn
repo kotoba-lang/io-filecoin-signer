@@ -13,7 +13,7 @@
 ;; implementation of that curve anywhere in this workspace.
 {:paths ["src"]
  :deps {io.github.kotoba-lang/io-filecoin
-        {:git/sha "b28b628c4c5ffa3594ce8242eefd286352a464b7"}
+        {:git/sha "5cae99bfd68e28518db28edf8df0eac88336d3ba"}
         io.github.kotoba-lang/eth-crypto
         {:git/sha "702293e35624f1051b592030a2aaff851c821912"}}
  :aliases
