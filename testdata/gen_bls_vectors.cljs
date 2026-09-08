@@ -15,7 +15,7 @@
 ;;
 ;;   nbb testdata/gen_bls_vectors.cljs > test/filecoin/signer/bls_vectors.cljc
 (ns gen-bls-vectors
-  (:require [clojure.string :as str]
+  (:require [kotoba.lang.text :as str]
             [filecoin.address :as addr]
             [filecoin.rpc :as rpc]))
 

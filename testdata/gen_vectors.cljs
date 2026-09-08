@@ -24,7 +24,7 @@
 ;;
 ;;   nbb testdata/gen_vectors.cljs > test/filecoin/signer/vectors.cljc
 (ns gen-vectors
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 (def endpoint "https://api.node.glif.io/rpc/v1")
 (def want-secp 3)
