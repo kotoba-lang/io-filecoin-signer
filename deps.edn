@@ -12,7 +12,12 @@
 ;; Still no BLS12-381, so `f3` accounts cannot sign here — there is no
 ;; implementation of that curve anywhere in this workspace.
 {:paths ["src"]
- :deps {io.github.kotoba-lang/io-filecoin
+ :deps {
+        ;; kotoba.lang.text, not clojure.string. Pinned as an explicit floor:
+        ;; tools.deps takes the NEWEST sha it is shown, so without a floor here
+        ;; this repo silently rides whatever a sibling happens to name.
+        io.github.kotoba-lang/text {:git/sha "73bdb13ae7a3d004b44bca08be03a3191157a38f"}
+       io.github.kotoba-lang/io-filecoin
         {:git/sha "5cae99bfd68e28518db28edf8df0eac88336d3ba"}
         io.github.kotoba-lang/eth-crypto
         {:git/sha "702293e35624f1051b592030a2aaff851c821912"}}

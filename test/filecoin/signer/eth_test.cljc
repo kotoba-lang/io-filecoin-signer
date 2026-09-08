@@ -1,5 +1,5 @@
 (ns filecoin.signer.eth-test
-  (:require [clojure.string :as str]
+  (:require [kotoba.lang.text :as str]
             [clojure.test :refer [deftest is testing]]
             [eth-crypto.core :as eth]
             [filecoin.address :as addr]
@@ -40,7 +40,7 @@
       (is (= addr/eth-namespace (addr/namespace-of f4)))
       (is (= (ethtx/eth-address test-key) (addr/to-eth-address f4))))
     (testing "which matches what eth-crypto derives independently"
-      (is (= (str/lower-case (eth/address-of-privkey
+      (is (= (str/lower (eth/address-of-privkey
                                          #?(:clj (byte-array (map unchecked-byte (eth/hex->bytes test-key)))
                                             :cljs (eth/hex->bytes test-key))))
              (ethtx/eth-address test-key))))))
@@ -99,7 +99,7 @@
     (is (= 0 (:version m)))
     (is (= method/invoke-contract (:method m)))
     (is (= from (:from m)))
-    (is (= (str/lower-case contract) (addr/to-eth-address (:to m)))
+    (is (= (str/lower contract) (addr/to-eth-address (:to m)))
         "to-eth-address is lowercase; EIP-55 casing is a display concern")
     (testing "gas fields cross over: max fee -> cap, priority -> premium"
       (is (= "100000" (:gas-fee-cap m)))
