@@ -1,4 +1,4 @@
-#!/usr/bin/env nbb
+#!/usr/bin/env kbb
 ;; Run the suite on the ClojureScript side.
 ;;
 ;; Not a formality: eth-crypto implements secp256k1 twice — BigInteger and
@@ -7,7 +7,7 @@
 ;; this suite are a cross-implementation check, and recovering a mainnet
 ;; sender has to work on both or one of the two is wrong.
 ;;
-;;   nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljk
+;;   kbb --backend sci --classpath "$(kbb -A:cljs -Spath)" scripts/verify-cljs.cljk
 (ns verify-cljs
   (:require [clojure.test :as t]
             [filecoin.signer-test]

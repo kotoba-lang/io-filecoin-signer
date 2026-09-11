@@ -1,4 +1,4 @@
-#!/usr/bin/env nbb
+#!/usr/bin/env kbb
 ;; Snapshot a real Filecoin mainnet block whose BLS aggregate can be checked
 ;; without touching chain state, into test/filecoin/signer/bls_vectors.cljk.
 ;;
@@ -13,7 +13,7 @@
 ;; message CID, the address→key extraction, the DST, the G1/G2 placement and
 ;; the aggregate scheme at once, against a signature a miner actually made.
 ;;
-;;   nbb testdata/gen_bls_vectors.cljk > test/filecoin/signer/bls_vectors.cljk
+;;   kbb --backend sci testdata/gen_bls_vectors.cljk > test/filecoin/signer/bls_vectors.cljk
 (ns gen-bls-vectors
   (:require [kotoba.lang.text :as str]
             [filecoin.address :as addr]
