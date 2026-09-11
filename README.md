@@ -156,7 +156,7 @@ SHA-256), and both suites assert the same bytes.
 **123 assertions on the JVM, 126 under nbb.** They differ on purpose here: the BLS suite is ClojureScript-only, and the JVM runs a refusal test in its place.
 
 ```sh
-clojure -M:test        # JVM
+kbb -M:test        # JVM
 npm run test:cljs      # nbb
 npm run vectors        # re-snapshot mainnet (not run in CI)
 ```

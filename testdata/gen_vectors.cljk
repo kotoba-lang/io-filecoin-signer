@@ -1,4 +1,4 @@
-#!/usr/bin/env nbb
+#!/usr/bin/env kbb
 ;; Snapshot real signed messages off Filecoin mainnet into
 ;; test/filecoin/signer/vectors.cljk.
 ;;
@@ -22,7 +22,7 @@
 ;; Type 1 is a minority of mainnet's non-BLS traffic now that most of it is
 ;; FEVM, so this walks back over blocks until it has enough.
 ;;
-;;   nbb testdata/gen_vectors.cljk > test/filecoin/signer/vectors.cljk
+;;   kbb --backend sci testdata/gen_vectors.cljk > test/filecoin/signer/vectors.cljk
 (ns gen-vectors
   (:require [kotoba.lang.text :as str]))
 
