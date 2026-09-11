@@ -7,7 +7,7 @@
 ;; this suite are a cross-implementation check, and recovering a mainnet
 ;; sender has to work on both or one of the two is wrong.
 ;;
-;;   nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljs
+;;   nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljk
 (ns verify-cljs
   (:require [clojure.test :as t]
             [filecoin.signer-test]
