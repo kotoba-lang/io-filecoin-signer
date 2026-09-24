@@ -1,7 +1,7 @@
 (ns filecoin.signer.bls-test
   "ClojureScript only — see `filecoin.signer.bls`. The JVM suite loads this
   namespace and asserts the refusal; the real checks run under nbb."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [filecoin.address :as addr]
             [filecoin.message :as msg]
             [filecoin.rpc :as rpc]
