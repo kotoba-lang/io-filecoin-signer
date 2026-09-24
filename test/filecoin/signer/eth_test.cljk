@@ -1,6 +1,6 @@
 (ns filecoin.signer.eth-test
   (:require [kotoba.lang.text :as str]
-            [clojure.test :refer [deftest is testing]]
+            [kotoba.test :refer [deftest is testing]]
             [eth-crypto.core :as eth]
             [filecoin.address :as addr]
             [filecoin.message :as msg]
