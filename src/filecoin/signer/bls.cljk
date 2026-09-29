@@ -44,7 +44,7 @@
   in — the JVM options are JNI bindings to `blst`, which would pin a native
   library and a platform. The `:clj` side therefore throws, with the same
   shape `multiformats.core` and `eth-crypto` have used for the same reason.
-  This is also the order `CLAUDE.md` sets: ClojureScript ranks above the JVM,
+  This is also the order `AGENTS.md` sets: ClojureScript ranks above the JVM,
   so a cljs-only capability is a normal state rather than a gap to apologise
   for."
   (:require #?@(:cljs [["@noble/curves/bls12-381.js" :refer [bls12_381]]])
