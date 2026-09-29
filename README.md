@@ -129,7 +129,7 @@ treating exceptions as transport errors would mishandle a tampered block.
 **ClojureScript only.** There is no pure-Java BLS12-381 here and the JVM
 options are JNI bindings to `blst`, which would pin a native library and a
 platform. The `:clj` side throws and names the operation it was asked for.
-That also matches CLAUDE.md's runtime order, where ClojureScript ranks above
+That also matches AGENTS.md's runtime order, where ClojureScript ranks above
 the JVM.
 
 ## Verification
